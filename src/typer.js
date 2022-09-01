@@ -62,6 +62,9 @@ export function Typer(wordCount = 50) {
 
     const inputValue = value
     const og = this.randomWords.split('')
+    if (inputValue.length <= 0) {
+      debouncedAligner(this.preview.childNodes[0], this.caretNode)
+    }
     for (let i in inputValue) {
       this.preview.childNodes.forEach((node, nodeIndex) => {
         const toModify = node.id == keygen(i)

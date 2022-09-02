@@ -9,7 +9,7 @@ html {
     'Source Code Pro', monospace;
   --bg: #181819;
   --fg: #666;
-  --accent: pink;
+  --accent: hsl(320, 90%, 70%);
   --subtle: #999;
   --green: hsl(150, 40%, 70%);
   --red: hsl(5, 80%, 70%);
@@ -53,8 +53,8 @@ textarea {
   transition: transform 250ms linear;
 }
 
-#app{
-  height:100%;
+#app {
+  height: 100%;
   display: flex;
   /* align-items: center; */
   justify-content: center;

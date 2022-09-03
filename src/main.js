@@ -12,5 +12,8 @@ input.addEventListener('keyup', e => {
   typer.update(input.value)
 })
 
-typer.init()
+window.addEventListener('resize', e => {
+  typer.update('')
+})
 
+typer.init()

@@ -7,6 +7,7 @@ function alignCaretToBox(node, caretNode) {
   caretNode.style.top = box.top
   caretNode.style.left = box.left
   caretNode.style.bottom = box.bottom
+  caretNode.style.width = box.width+"px"
   caretNode.style.transform = `translate(${box.left}px,${box.bottom}px)`
 }
 

@@ -38,20 +38,28 @@ textarea {
   padding: 10px;
   position: relative;
   display: block;
-  min-height: 250px;
+  min-height: 35%;
   width: 100%;
+  letter-spacing: 1px;
 }
 
 .caret-block {
   position: absolute;
   height: 2px;
-  width: 10px;
+  border-radius:4px;
   left: 0px;
   top: 0px;
   display: inline-block;
   background-color: var(--accent);
   transition: transform 250ms linear;
+  animation: blink 1s linear infinite;
 }
+
+@keyframes blink{
+  0%{opacity: 0;}
+  50%{opacity: .5;}
+  100%{opacity: .9;}
+  }
 
 #app {
   height: 100%;

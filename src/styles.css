@@ -40,7 +40,7 @@ textarea {
   display: block;
   min-height: 35%;
   width: 100%;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 .caret-block {

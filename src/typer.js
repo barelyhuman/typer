@@ -4,11 +4,9 @@ import { keygen } from './lib/keygen'
 
 function alignCaretToBox(node, caretNode) {
   const box = node.getBoundingClientRect()
-  caretNode.style.top = box.top
-  caretNode.style.left = box.left
-  caretNode.style.bottom = box.bottom
-  caretNode.style.width = box.width+"px"
-  caretNode.style.transform = `translate(${box.left}px,${box.bottom}px)`
+  caretNode.style.bottom = box.bottom + 'px'
+  caretNode.style.height = box.height + 'px'
+  caretNode.style.transform = `translate(${box.left}px,${box.top}px)`
 }
 
 const debouncedAligner = debounce(alignCaretToBox, 0)

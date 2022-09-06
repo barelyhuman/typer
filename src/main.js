@@ -9,7 +9,7 @@ const typer = new Typer()
 typer.install(maxContainer, container, input)
 
 input.addEventListener('keyup', e => {
-  typer.update(input.value)
+  typer.update(e.target.value)
 })
 
 window.addEventListener('resize', e => {

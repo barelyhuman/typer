@@ -1,6 +1,6 @@
 {
   "name": "typer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": "git@github.com:barelyhuman/typer",
   "author": "Reaper <ahoy@barelyhuman.dev>",
   "license": "MIT",
@@ -8,7 +8,7 @@
     "dev": "parcel src/index.html",
     "build": "parcel build src/index.html"
   },
-  "prettier":"@barelyhuman/prettier-config",
+  "prettier": "@barelyhuman/prettier-config",
   "dependencies": {
     "parcel": "^2.7.0",
     "random-words": "^1.2.0"

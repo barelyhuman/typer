@@ -4,14 +4,16 @@ import { keygen } from './lib/keygen'
 
 function alignCaretToBox(node, caretNode) {
   const box = node.getBoundingClientRect()
-  caretNode.style.bottom = box.bottom + 'px'
   caretNode.style.height = box.height + 'px'
   caretNode.style.transform = `translate(${box.left}px,${box.top}px)`
 }
 
 const debouncedAligner = debounce(alignCaretToBox, 0)
 
-export function Typer(wordCount = 50) {
+export function Typer(wordCount = 5) {
+
+  this.wordCount = wordCount
+
   this.install = function (
     container = document.getElementById('container'),
     preview = document.getElementById('preview'),
@@ -20,7 +22,7 @@ export function Typer(wordCount = 50) {
     this.container = container
     this.preview = preview
     this.editor = editor
-    this.randomWords = randomWords(wordCount).join(' ')
+    this.randomWords = randomWords(this.wordCount).join(' ').concat([" "])
 
     this.installCaret(document.body)
     this.installNodes(this.preview)
@@ -54,6 +56,20 @@ export function Typer(wordCount = 50) {
     debouncedAligner(this.preview.childNodes[0], this.caretNode)
   }
 
+  this.hasReachedEnd = function(){
+    if(this.editor.value.length >= this.randomWords.length){
+      return true
+    }
+  }
+  
+  this.reset = function(){
+    this.editor.value = ''
+    removeAllChildNodes(this.preview)
+    this.randomWords = randomWords(this.wordCount).join(' ').concat([" "])
+    this.installNodes(this.preview)
+    debouncedAligner(this.preview.childNodes[0], this.caretNode)
+  }
+
   this.update = function (value) {
     this.preview.childNodes.forEach(node => {
       node.className = ''
@@ -82,5 +98,12 @@ export function Typer(wordCount = 50) {
         }
       })
     }
+  }
+}
+
+
+function removeAllChildNodes(parent) {
+  while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
   }
 }

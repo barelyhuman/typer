@@ -1,14 +1,17 @@
 import { Typer } from './typer'
 
-const maxContainer = document.querySelector('.typer-container')
-const container = document.getElementById('typer-preview')
-const input = document.getElementById('typer-input')
+const typerContainer = document.querySelector('.typer-container')
+const typerPreview = document.getElementById('typer-preview')
+const typerInput = document.getElementById('typer-input')
 
 const typer = new Typer(30)
 
-typer.install(maxContainer, container, input)
+typer.install(typerContainer, typerPreview, typerInput)
 
-input.addEventListener('keyup', e => {
+// sync height of the overall container with the typer preview
+typerContainer.style.height = typerPreview.style.height
+
+typerInput.addEventListener('keyup', e => {
   typer.update(e.target.value)
   if(typer.hasReachedEnd()){
     typer.reset()

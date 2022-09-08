@@ -38,6 +38,10 @@ export function Typer(wordCount = 5) {
 
     this.caretNode = caretNode
 
+    this.editor.addEventListener("focus",(e)=>{
+      caretNode.style.visibility = 'visible'
+    })
+
     host.appendChild(this.caretNode)
   }
 
@@ -53,6 +57,12 @@ export function Typer(wordCount = 5) {
   }
 
   this.init = function () {
+    this.editor.addEventListener("focus",()=>{
+      this.caretNode.style.visibility = "block"
+    })
+    this.editor.addEventListener("blur",()=>{
+      this.caretNode.style.visibility = "hidden"
+    })
     debouncedAligner(this.preview.childNodes[0], this.caretNode)
   }
 

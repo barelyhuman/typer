@@ -4,6 +4,10 @@ Simple typing area for warming up my fingers every morning. I'd like to get away
 from the competetive angle of typing tests and just warm up my fingers every
 morning before I start working.
 
+> **Note**: This is now feature complete and serves it's purpose, if there's bugs, please raise issues/PR's accordingly. 
+
+> **Note**: If you feel like there's a tiny addition you'd wish to have then you can talk to me and if it's seems like a good addition, we can go ahead or you can always fork and do the same :) 
+
 ## No bundler setup
 
 If you were sent here by a tweet claiming to be "no setup", you are looking for

@@ -2,19 +2,23 @@ import randomWords from 'random-words'
 import { debounce } from './lib/debounce'
 import { keygen } from './lib/keygen'
 
-function alignCaretToBox(node, caretNode) {
+function alignCaretToBox(containerNode, node, caretNode) {
+  const containerBox = containerNode.getBoundingClientRect()
   const box = node.getBoundingClientRect()
+  const top = box.top - containerBox.top
+  const left = box.left - containerBox.left
   caretNode.style.height = box.height + 'px'
-  caretNode.style.transform = `translate(${box.left}px,${box.top}px)`
+  caretNode.style.transform = `translate(${left}px,${top}px)`
 }
 
 const debouncedAligner = debounce(alignCaretToBox, 0)
 
-export function Typer(wordCount = 5) {
+export class Typer {
+  constructor(wordCount = 5) {
+    this.wordCount = wordCount
+  }
 
-  this.wordCount = wordCount
-
-  this.install = function (
+  install(
     container = document.getElementById('container'),
     preview = document.getElementById('preview'),
     editor = document.getElementById('editor')
@@ -22,13 +26,13 @@ export function Typer(wordCount = 5) {
     this.container = container
     this.preview = preview
     this.editor = editor
-    this.randomWords = randomWords(this.wordCount).join(' ').concat([" "])
+    this.randomWords = randomWords(this.wordCount).join(' ').concat([' '])
 
-    this.installCaret(document.body)
+    this.installCaret(this.container)
     this.installNodes(this.preview)
   }
 
-  this.installCaret = function (host) {
+  installCaret(host) {
     const caretNode = document.createElement('span')
     const box = host.getBoundingClientRect()
 
@@ -38,14 +42,14 @@ export function Typer(wordCount = 5) {
 
     this.caretNode = caretNode
 
-    this.editor.addEventListener("focus",(e)=>{
+    this.editor.addEventListener('focus', e => {
       caretNode.style.visibility = 'visible'
     })
 
     host.appendChild(this.caretNode)
   }
 
-  this.installNodes = function (host) {
+  installNodes(host) {
     const nodes = this.randomWords.split('').map((x, index) => {
       const spanNode = document.createElement('span')
       spanNode.id = keygen(index)
@@ -56,31 +60,31 @@ export function Typer(wordCount = 5) {
     this.nodes = nodes
   }
 
-  this.init = function () {
-    this.editor.addEventListener("focus",()=>{
-      this.caretNode.style.visibility = "block"
+  init() {
+    this.editor.addEventListener('focus', () => {
+      this.caretNode.style.visibility = 'block'
     })
-    this.editor.addEventListener("blur",()=>{
-      this.caretNode.style.visibility = "hidden"
+    this.editor.addEventListener('blur', () => {
+      this.caretNode.style.visibility = 'hidden'
     })
-    debouncedAligner(this.preview.childNodes[0], this.caretNode)
+    debouncedAligner(this.container, this.preview.childNodes[0], this.caretNode)
   }
 
-  this.hasReachedEnd = function(){
-    if(this.editor.value.length >= this.randomWords.length){
+  hasReachedEnd() {
+    if (this.editor.value.length >= this.randomWords.length) {
       return true
     }
   }
-  
-  this.reset = function(){
+
+  reset() {
     this.editor.value = ''
     removeAllChildNodes(this.preview)
-    this.randomWords = randomWords(this.wordCount).join(' ').concat([" "])
+    this.randomWords = randomWords(this.wordCount).join(' ').concat([' '])
     this.installNodes(this.preview)
-    debouncedAligner(this.preview.childNodes[0], this.caretNode)
+    debouncedAligner(this.container, this.preview.childNodes[0], this.caretNode)
   }
 
-  this.update = function (value) {
+  update(value) {
     this.preview.childNodes.forEach(node => {
       node.className = ''
     })
@@ -88,32 +92,35 @@ export function Typer(wordCount = 5) {
     const inputValue = value
     const og = this.randomWords.split('')
     if (inputValue.length <= 0) {
-      debouncedAligner(this.preview.childNodes[0], this.caretNode)
+      debouncedAligner(
+        this.container,
+        this.preview.childNodes[0],
+        this.caretNode
+      )
     }
     for (let i in inputValue) {
-      this.preview.childNodes.forEach((node, nodeIndex) => {
-        const toModify = node.id == keygen(i)
-        if (toModify) {
-          if (inputValue[i] == og[i]) {
-            node.className = ''
-            node.classList.add('correct')
-          } else {
-            node.className = ''
-            node.classList.add('incorrect')
-          }
-          const nextNode = this.preview.childNodes[nodeIndex + 1]
-          if (nextNode) {
-            debouncedAligner(nextNode, this.caretNode)
-          }
-        }
-      })
+      const toModify = document.getElementById(keygen(i))
+      if (!toModify) {
+        continue
+      }
+
+      if (inputValue[i] == og[i]) {
+        toModify.className = ''
+        toModify.classList.add('correct')
+      } else {
+        toModify.className = ''
+        toModify.classList.add('incorrect')
+      }
+      const nextNode = document.getElementById(keygen(+i + 1))
+      if (nextNode) {
+        debouncedAligner(this.container, nextNode, this.caretNode)
+      }
     }
   }
 }
 
-
 function removeAllChildNodes(parent) {
   while (parent.firstChild) {
-      parent.removeChild(parent.firstChild);
+    parent.removeChild(parent.firstChild)
   }
 }

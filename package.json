@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html"
+    "build": "parcel build src/index.html",
+    "fix":"npx prettier --write ."
   },
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "prettier": "@barelyhuman/prettier-config",

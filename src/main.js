@@ -5,9 +5,20 @@ const typerPreview = document.getElementById('typer-preview')
 const typerInput = document.getElementById('typer-input')
 
 const typer = new Typer(30)
+const ignoreKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']
 
 typer.install(typerContainer, typerPreview, typerInput)
 syncHeights()
+
+typerInput.addEventListener(
+  'keydown',
+  e => {
+    if (ignoreKeys.indexOf(e.code) > -1) {
+      e.preventDefault()
+    }
+  },
+  false
+)
 
 typerInput.addEventListener('keyup', e => {
   typer.update(e.target.value)

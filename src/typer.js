@@ -2,15 +2,6 @@ import randomWords from 'random-words'
 import { debounce } from './lib/debounce'
 import { keygen } from './lib/keygen'
 
-function alignCaretToBox(containerNode, node, caretNode) {
-  const containerBox = containerNode.getBoundingClientRect()
-  const box = node.getBoundingClientRect()
-  const top = box.top - containerBox.top
-  const left = box.left - containerBox.left
-  caretNode.style.height = box.height + 'px'
-  caretNode.style.transform = `translate(${left}px,${top}px)`
-}
-
 const debouncedAligner = debounce(alignCaretToBox, 0)
 
 export class Typer {
@@ -123,4 +114,13 @@ function removeAllChildNodes(parent) {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild)
   }
+}
+
+function alignCaretToBox(containerNode, node, caretNode) {
+  const containerBox = containerNode.getBoundingClientRect()
+  const box = node.getBoundingClientRect()
+  const top = box.top - containerBox.top
+  const left = box.left - containerBox.left
+  caretNode.style.height = box.height + 'px'
+  caretNode.style.transform = `translate(${left}px,${top}px)`
 }

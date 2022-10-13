@@ -4,6 +4,9 @@ Simple typing area for warming up my fingers every morning. I'd like to get away
 from the competetive angle of typing tests and just warm up my fingers every
 morning before I start working.
 
+## Why?
+You can read about it [here](https://justforfunnoreally.dev)
+
 > **Note**: This is now feature complete and serves it's purpose, if there's
 > bugs, please raise issues/PR's accordingly.
 

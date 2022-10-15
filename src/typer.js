@@ -5,8 +5,11 @@ import { keygen } from './lib/keygen'
 const debouncedAligner = debounce(alignCaretToBox, 0)
 
 export class Typer {
+  _wordCount
+  _initCb
+
   constructor(wordCount = 5) {
-    this.wordCount = wordCount
+    this._wordCount = wordCount
   }
 
   install(
@@ -40,6 +43,15 @@ export class Typer {
     host.appendChild(this.caretNode)
   }
 
+  get wordCount() {
+    return this._wordCount
+  }
+
+  set wordCount(val) {
+    this._wordCount = val
+    this.reset()
+  }
+
   installNodes(host) {
     const nodes = this.randomWords.split('').map((x, index) => {
       const spanNode = document.createElement('span')
@@ -67,12 +79,17 @@ export class Typer {
     }
   }
 
+  onInit(cb) {
+    this._initCb = cb
+  }
+
   reset() {
     this.editor.value = ''
     removeAllChildNodes(this.preview)
     this.randomWords = randomWords(this.wordCount).join(' ').concat([' '])
     this.installNodes(this.preview)
     debouncedAligner(this.container, this.preview.childNodes[0], this.caretNode)
+    this._initCb?.()
   }
 
   update(value) {

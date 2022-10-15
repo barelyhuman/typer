@@ -32,7 +32,8 @@ function syncHeights() {
   // sync height of the overall container with the typer preview
   const firstNodeBox = typerPreview.firstChild.getBoundingClientRect()
   const lastNodeBox = typerPreview.lastChild.getBoundingClientRect()
-  typerContainer.style.height = lastNodeBox.bottom - firstNodeBox.top + 'px'
+  typerContainer.style.height =
+    lastNodeBox.bottom - firstNodeBox.top + 10 + 'px'
 }
 
 function createWordCountTriggers() {

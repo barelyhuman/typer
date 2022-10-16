@@ -1,124 +1,69 @@
+:root {
+  --success: #212529;
+  --error: #fa5252;
+  --dull: #adb5bd;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html {
-  --font-mono: 'Hermit', 'Fira Mono', 'Ubuntu Mono', 'IBM Plex Mono',
-    'Source Code Pro', monospace;
-  --bg: #181819;
-  --fg: #666;
-  --accent: hsl(320, 90%, 70%);
-  --subtle: #999;
-  --green: hsl(150, 40%, 70%);
-  --red: hsl(5, 80%, 70%);
-  --font-size: 18px;
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-mono);
-  font-size: var(--font-size);
-}
-
-html,
 body {
-  height: 100%;
-}
-
-body {
-  max-width: 80ch;
-  margin: 0 auto;
-}
-
-textarea {
-  color: transparent;
+  background: white;
+  color: #212529;
+  font-size: 20px;
+  font-family: 'Hermit', monospace;
 }
 
 .typer-container {
-  padding: 10px;
-  position: relative;
-  display: block;
-  width: 100%;
-  letter-spacing: 2px;
-}
-
-.caret-block {
-  position: absolute;
-  border-radius: 4px;
-  top: 0px;
-  display: inline-block;
-  width: 2px;
-  background-color: var(--accent);
-  transition: transform 250ms linear;
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0.9;
-  }
-}
-
-#app {
-  height: 100%;
   display: flex;
-  padding: 10px;
-  /* align-items: center; */
-  justify-content: center;
   flex-direction: column;
+  gap: 10px;
+  max-width: 85ch;
+  margin: 0 auto;
+  margin-top: 25%;
+  position: relative;
 }
 
-#typer-input,
-#typer-preview {
-  font-size: var(--font-size);
-  font-family: var(--font-mono);
-  line-height: calc(var(--font-size) * 1.8);
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
-  width: 100%;
-  height: 100%;
-  resize: none;
-  outline: none;
+#typer-preview,
+#typer-input {
   position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 1.5;
+  outline: none;
   background: transparent;
-}
-
-.correct {
-  color: var(--green);
-}
-.incorrect {
-  color: var(--red);
-}
-
-.button-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font-size: inherit;
+  font-family: inherit;
+  border: 0;
   padding: 10px;
 }
 
-.trigger-btn {
-  background: transparent;
-  border: 0;
-  font-weight: bold;
-  font-family: var(--font-mono);
-  color: var(--fg);
-  border-radius: 2px;
-  border-bottom: 3px solid var(--fg);
+#typer-input {
+  color: transparent;
 }
 
-.trigger-btn.active {
-  color: var(--accent);
-  border-bottom: 3px solid var(--accent);
+.typer-letter {
+  color: var(--dull);
 }
 
-.trigger-btn:hover {
-  border-bottom: 3px solid var(--accent);
+.typer-letter.valid {
+  color: var(--success);
+}
+
+.typer-letter.invalid {
+  color: var(--error);
+}
+
+#caret {
+  height: 36px;
+  width: 2px;
+  background: black;
+  border-radius: 6px;
+  position: fixed;
+  top: 10;
+  left: 10;
+  transition: all 30ms linear;
 }

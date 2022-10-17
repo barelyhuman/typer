@@ -12,7 +12,7 @@ function main() {
 
   syncHeights(preview, editor)
 
-  const characters = randomWords(10).join(' ').split('')
+  const characters = randomWords(30).join(' ').split('')
   characters.push(' ')
   const nodes = characters.map(x => new Node(x))
   const statement = characters.join('')

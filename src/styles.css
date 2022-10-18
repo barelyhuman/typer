@@ -1,7 +1,7 @@
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 html {
@@ -9,10 +9,10 @@ html {
     'Source Code Pro', monospace;
   --bg: #181819;
   --fg: #666;
-  --accent: hsl(320, 90%, 70%);
+  --accent: #f76ec9;
   --subtle: #999;
-  --green: hsl(150, 40%, 70%);
-  --red: hsl(5, 80%, 70%);
+  --green: #94d1b3;
+  --red: #f07f75;
   --font-size: 18px;
   background: var(--bg);
   color: var(--fg);
@@ -31,47 +31,48 @@ body {
 }
 
 textarea {
-  color: transparent;
+  color: #0000;
 }
 
 .typer-container {
-  padding: 10px;
-  position: relative;
-  display: block;
   width: 100%;
   letter-spacing: 2px;
+  padding: 10px;
+  display: block;
+  position: relative;
 }
 
-.caret-block {
-  position: absolute;
-  border-radius: 4px;
-  top: 0px;
-  display: inline-block;
+#caret {
   width: 2px;
   background-color: var(--accent);
-  transition: transform 250ms linear;
+  border-radius: 4px;
+  transition: transform 0.25s linear;
   animation: blink 1s infinite;
+  display: inline-block;
+  position: absolute;
+  top: 0;
 }
 
 @keyframes blink {
   0% {
     opacity: 0;
   }
+
   50% {
     opacity: 0.5;
   }
-  100% {
+
+  to {
     opacity: 0.9;
   }
 }
 
 #app {
   height: 100%;
-  display: flex;
-  padding: 10px;
-  /* align-items: center; */
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+  display: flex;
 }
 
 #typer-input,
@@ -79,39 +80,40 @@ textarea {
   font-size: var(--font-size);
   font-family: var(--font-mono);
   line-height: calc(var(--font-size) * 1.8);
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
   width: 100%;
   height: 100%;
   resize: none;
+  background: 0 0;
+  border: 0;
   outline: none;
+  margin: 0;
+  padding: 0;
   position: absolute;
-  background: transparent;
 }
 
-.correct {
+.valid {
   color: var(--green);
 }
-.incorrect {
+
+.invalid {
   color: var(--red);
 }
 
 .button-container {
-  display: flex;
   align-items: center;
   gap: 8px;
   padding: 10px;
+  display: flex;
 }
 
 .trigger-btn {
-  background: transparent;
-  border: 0;
-  font-weight: bold;
+  font-weight: 700;
   font-family: var(--font-mono);
   color: var(--fg);
-  border-radius: 2px;
+  border: 0;
   border-bottom: 3px solid var(--fg);
+  background: 0 0;
+  border-radius: 2px;
 }
 
 .trigger-btn.active {
@@ -122,3 +124,4 @@ textarea {
 .trigger-btn:hover {
   border-bottom: 3px solid var(--accent);
 }
+/*# sourceMappingURL=index.c756dc88.css.map */

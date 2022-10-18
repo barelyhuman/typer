@@ -7,15 +7,15 @@
   "scripts": {
     "dev": "parcel src/index.html",
     "build": "parcel build src/index.html",
-    "fix":"npx prettier --write ."
+    "fix": "npx prettier --write ."
   },
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "prettier": "@barelyhuman/prettier-config",
   "dependencies": {
-    "parcel": "^2.7.0",
     "random-words": "^1.2.0"
   },
   "devDependencies": {
+    "parcel": "^2.7.0",
     "@barelyhuman/prettier-config": "^1.1.0",
     "prettier": "^2.7.1"
   }

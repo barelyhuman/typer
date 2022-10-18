@@ -1,18 +1,34 @@
 import randomWords from 'random-words'
 
+const ignoreKeys = ['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp']
+
 function main() {
   const caret = document.getElementById('caret')
   const preview = document.getElementById('typer-preview')
   const editor = document.getElementById('typer-input')
+  const container = document.querySelector('.typer-container')
   editor.value = ''
   preview.innerHTML = ''
   editor.style.resize = 'none'
 
   editor.focus()
 
-  syncHeights(preview, editor)
+  editor.addEventListener('keyup', e => {
+    if (ignoreKeys.indexOf(e.code) > -1) {
+      e.preventDefault()
+    }
+  })
 
-  const characters = randomWords(30).join(' ').split('')
+  syncHeights(preview, preview)
+  syncHeights(preview, editor)
+  syncHeights(preview, container)
+
+  const searchParams = new URLSearchParams(window.location.search)
+  const charCount = searchParams.get('wordCount')
+  if (!charCount) {
+    changeWords(30)
+  }
+  const characters = randomWords(Number(charCount)).join(' ').split('')
   characters.push(' ')
   const nodes = characters.map(x => new Node(x))
   const statement = characters.join('')
@@ -42,6 +58,33 @@ function main() {
   })
 
   // autoType(statement, editor)
+  setupTriggerButtons()
+}
+
+function setupTriggerButtons() {
+  const group = document.getElementById('trigger-group')
+  for (const node of group.childNodes) {
+    if (node.dataset) {
+      node.classList.remove('active')
+      if (getActiveWordCount() === node.dataset.value) {
+        node.classList.add('active')
+      }
+    }
+    node.addEventListener('click', () => {
+      changeWords(node.dataset.value)
+    })
+  }
+}
+
+function getActiveWordCount() {
+  const urlParams = new URLSearchParams(window.location.search)
+  return urlParams.get('wordCount')
+}
+
+function changeWords(count) {
+  const urlParams = new URLSearchParams()
+  urlParams.append('wordCount', count)
+  window.location.search = urlParams.toString()
 }
 
 function autoType(statement, editor) {
@@ -70,9 +113,20 @@ function pollValue(editor, onUpdate) {
 function syncHeights(from, to) {
   setInterval(() => {
     const box = from.getBoundingClientRect()
+    const height = getHeightByChildren(from)
+    const padding = 10
     to.style.width = box.width + 'px'
-    to.style.height = box.height + 'px'
+    to.style.height = height + padding + 'px'
   }, 60)
+}
+
+function getHeightByChildren(forElem) {
+  if (!forElem.childNodes.length) {
+    return 0
+  }
+  const boxOne = forElem.firstChild.getBoundingClientRect()
+  const boxTwo = forElem.lastChild.getBoundingClientRect()
+  return boxTwo.y + boxTwo.height - boxOne.y
 }
 
 function Node(word) {

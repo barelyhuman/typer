@@ -1,69 +1,127 @@
-:root {
-  --success: #212529;
-  --error: #fa5252;
-  --dull: #adb5bd;
-}
-
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+}
+
+html {
+  --font-mono: 'Hermit', 'Fira Mono', 'Ubuntu Mono', 'IBM Plex Mono',
+    'Source Code Pro', monospace;
+  --bg: #181819;
+  --fg: #666;
+  --accent: #f76ec9;
+  --subtle: #999;
+  --green: #94d1b3;
+  --red: #f07f75;
+  --font-size: 18px;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: var(--font-size);
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: white;
-  color: #212529;
-  font-size: 20px;
-  font-family: 'Hermit', monospace;
+  max-width: 80ch;
+  margin: 0 auto;
+}
+
+textarea {
+  color: #0000;
 }
 
 .typer-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 85ch;
-  margin: 0 auto;
-  margin-top: 25%;
+  width: 100%;
+  letter-spacing: 2px;
+  padding: 10px;
+  display: block;
   position: relative;
 }
 
-#typer-preview,
-#typer-input {
+#caret {
+  width: 2px;
+  background-color: var(--accent);
+  border-radius: 4px;
+  transition: transform 0.25s linear;
+  animation: blink 1s infinite;
+  display: inline-block;
   position: absolute;
   top: 0;
-  left: 0;
-  line-height: 1.5;
-  outline: none;
-  background: transparent;
-  font-size: inherit;
-  font-family: inherit;
-  border: 0;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: 0.9;
+  }
+}
+
+#app {
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
   padding: 10px;
+  display: flex;
 }
 
-#typer-input {
-  color: transparent;
+#typer-input,
+#typer-preview {
+  font-size: var(--font-size);
+  font-family: var(--font-mono);
+  line-height: calc(var(--font-size) * 1.8);
+  width: 100%;
+  height: 100%;
+  resize: none;
+  background: 0 0;
+  border: 0;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
 }
 
-.typer-letter {
-  color: var(--dull);
+.valid {
+  color: var(--green);
 }
 
-.typer-letter.valid {
-  color: var(--success);
+.invalid {
+  color: var(--red);
 }
 
-.typer-letter.invalid {
-  color: var(--error);
+.button-container {
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  display: flex;
 }
 
-#caret {
-  height: 36px;
-  width: 2px;
-  background: black;
-  border-radius: 6px;
-  position: fixed;
-  top: 10;
-  left: 10;
-  transition: all 30ms linear;
+.trigger-btn {
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--fg);
+  border: 0;
+  border-bottom: 3px solid var(--fg);
+  background: 0 0;
+  border-radius: 2px;
 }
+
+.trigger-btn.active {
+  color: var(--accent);
+  border-bottom: 3px solid var(--accent);
+}
+
+.trigger-btn:hover {
+  border-bottom: 3px solid var(--accent);
+}
+/*# sourceMappingURL=index.c756dc88.css.map */

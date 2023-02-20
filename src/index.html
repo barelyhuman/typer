@@ -10,11 +10,16 @@
   <body>
     <div id="app">
       <div id="caret"></div>
-      <div id="trigger-group" class="button-container">
-        <button data-value="30" class="trigger-btn">30</button>
-        <button data-value="50" class="trigger-btn">50</button>
-        <button data-value="100" class="trigger-btn">100</button>
-        <button data-value="500" class="trigger-btn">500</button>
+      <div class="flex space-between align-center">
+        <div id="trigger-group" class="button-container">
+          <button data-value="30" class="trigger-btn">30</button>
+          <button data-value="50" class="trigger-btn">50</button>
+          <button data-value="100" class="trigger-btn">100</button>
+          <button data-value="500" class="trigger-btn">500</button>
+        </div>
+        <div>
+          <p><small><span id="speed">0</span> WPM</small></p>
+        </div>
       </div>
       <div class="typer-container">
         <div id="typer-preview"></div>

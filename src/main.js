@@ -3,17 +3,24 @@ import randomWords from 'random-words'
   const ignoreKeys = ['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp']
   const caret = document.getElementById('caret')
   const preview = document.getElementById('typer-preview')
+  const speedView = document.getElementById('speed')
   const editor = document.getElementById('typer-input')
   const container = document.querySelector('.typer-container')
   let listeners = []
   let autoTypeListner
   let nodes = []
+  let startTime = null
   let statement = ''
+  let speed = 0
 
   function initialState() {
     nodes = []
+    speed = 0
     statement = ''
     editor.value = ''
+    startTime = null
+
+    speedView.innerHTML = localStorage.getItem('score') || 0
 
     while (preview.firstChild) {
       preview.removeChild(preview.firstChild)
@@ -53,12 +60,23 @@ import randomWords from 'random-words'
       }
 
       if (value.length >= statement.length) {
+        localStorage.setItem('score', speed)
         initialState()
+        return
       }
 
+      if (!startTime) {
+        startTime = Date.now()
+      }
+
+      speed = calcSpeed(startTime, value.length)
+
       for (let i = 0; i < statement.length; i++) {
-        nodes[i].valid(value[i])
+        const isValid = nodes[i].valid(value[i])
         updateCaret(caret, nodes[i].getCaretStyle())
+        if (isValid) {
+          updateSpeed(speed)
+        }
         if (i >= value.length) {
           break
         }
@@ -175,9 +193,11 @@ import randomWords from 'random-words'
       } else if (value == this._word) {
         this._elm.classList.remove('invalid')
         this._elm.classList.add('valid')
+        return true
       } else {
         this._elm.classList.remove('valid')
         this._elm.classList.add('invalid')
+        return false
       }
     }
 
@@ -200,6 +220,18 @@ import randomWords from 'random-words'
     while ((style = caretPositions.shift())) {
       chain.then(style)
     }
+  }
+
+  function updateSpeed(speed) {
+    speedView.innerHTML = speed
+  }
+
+  function calcSpeed(startTime, typedCharacters) {
+    const minutes = 60 * 1000
+    const totalTimeInMills = Date.now() - startTime
+    const totalTimeInMinutes = totalTimeInMills / minutes
+    const typedWords = typedCharacters / 5
+    return Math.floor(typedWords / totalTimeInMinutes)
   }
 
   initialState()

@@ -13,7 +13,8 @@ html {
   --subtle: #999;
   --green: #94d1b3;
   --red: #f07f75;
-  --font-size: 18px;
+  --font-size: 32px;
+  --font-size-small: 24px;
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-mono);
@@ -28,6 +29,18 @@ body {
 body {
   max-width: 80ch;
   margin: 0 auto;
+}
+
+.flex{
+  display:flex;
+}
+
+.align-center{
+  align-items: center;
+}
+
+.space-between{
+  justify-content: space-between;
 }
 
 textarea {
@@ -107,13 +120,15 @@ textarea {
 }
 
 .trigger-btn {
+  font-size: var(--font-size-small);
   font-weight: 700;
   font-family: var(--font-mono);
   color: var(--fg);
   border: 0;
   border-bottom: 3px solid var(--fg);
   background: 0 0;
-  border-radius: 2px;
+  padding:10px;
+  border-radius: 0px;
 }
 
 .trigger-btn.active {
@@ -123,5 +138,5 @@ textarea {
 
 .trigger-btn:hover {
   border-bottom: 3px solid var(--accent);
+  cursor: pointer;
 }
-/*# sourceMappingURL=index.c756dc88.css.map */

@@ -23,7 +23,7 @@ function resetState() {
   startTime = null;
   input.value = "";
   preview.innerHTML = "";
-  setupWords(randomWords(5));
+  setupWords(randomWords(30));
 }
 
 function setupWords(words) {

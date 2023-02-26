@@ -5,8 +5,8 @@
 }
 
 html {
-  --font-mono: 'Hermit', 'Fira Mono', 'Ubuntu Mono', 'IBM Plex Mono',
-    'Source Code Pro', monospace;
+  --font-mono: "Hermit", "Fira Mono", "Ubuntu Mono", "IBM Plex Mono",
+    "Source Code Pro", monospace;
   --bg: #181819;
   --fg: #666;
   --accent: #f76ec9;
@@ -31,15 +31,15 @@ body {
   margin: 0 auto;
 }
 
-.flex{
-  display:flex;
+.flex {
+  display: flex;
 }
 
-.align-center{
+.align-center {
   align-items: center;
 }
 
-.space-between{
+.space-between {
   justify-content: space-between;
 }
 
@@ -48,7 +48,8 @@ textarea {
 }
 
 .typer-container {
-  width: 100%;
+  width: 90%;
+  height: 55vh;
   letter-spacing: 2px;
   padding: 10px;
   display: block;
@@ -59,10 +60,11 @@ textarea {
   width: 2px;
   background-color: var(--accent);
   border-radius: 4px;
-  transition: transform 0.25s linear;
+  transition: transform all 0.5s ease;
   animation: blink 1s infinite;
   display: inline-block;
   position: absolute;
+  transform-origin: top left;
   top: 0;
 }
 
@@ -84,6 +86,7 @@ textarea {
   height: 100%;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 10px;
   display: flex;
 }
@@ -92,7 +95,7 @@ textarea {
 #typer-preview {
   font-size: var(--font-size);
   font-family: var(--font-mono);
-  line-height: calc(var(--font-size) * 1.8);
+  line-height: var(--font-size);
   width: 100%;
   height: 100%;
   resize: none;
@@ -102,6 +105,11 @@ textarea {
   margin: 0;
   padding: 0;
   position: absolute;
+}
+
+.typer-letter {
+  font-size: var(--font-size);
+  line-height: var(--font-size);
 }
 
 .valid {
@@ -127,7 +135,7 @@ textarea {
   border: 0;
   border-bottom: 3px solid var(--fg);
   background: 0 0;
-  padding:10px;
+  padding: 10px;
   border-radius: 0px;
 }
 

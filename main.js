@@ -1,9 +1,9 @@
 import { reactive, effect } from "./rndr.js";
 import randomWords from "https://esm.sh/random-words@1.3.0";
-import { animate, linear } from "https://esm.sh/popmotion@11.0.5";
+import { animate, easeInOut } from "https://esm.sh/popmotion@11.0.5";
 
 const queue = Promise.prototype.then.bind(Promise.resolve());
-
+const ignoreKeys = ["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp"];
 const input = document.querySelector("#typer-input");
 const preview = document.querySelector("#typer-preview");
 const caret = document.querySelector("#caret");
@@ -14,9 +14,21 @@ let startTime;
 
 const state = reactive({ words: [], input: "", speed: 0 });
 
-input.addEventListener("keyup", (e) => {
-  state.input = e.target.value;
+input.addEventListener("keydown", (e) => {
+  if (ignoreKeys.indexOf(e.code) > -1) {
+    console.log("key to ignore");
+    e.preventDefault();
+    return;
+  }
 });
+
+input.addEventListener(
+  "keyup",
+  (e) => {
+    state.input = e.target.value;
+  },
+  false
+);
 
 function resetState() {
   state.input = "";
@@ -85,9 +97,9 @@ function renderWords() {
     queue(() => {
       const box = currentElm.elm.getBoundingClientRect();
       const width = 3;
-      const caretHeight = box.height / 1.5;
+      const caretHeight = box.height / 1.4;
       Object.assign(caret.style, {
-        top: box.y + (box.height - caretHeight * 1.25) + "px",
+        top: box.y + (box.height - caretHeight * 1.22) + "px",
         height: caretHeight + "px",
         width: width + "px",
         bottom: box.height + caretHeight + "px",
@@ -97,6 +109,7 @@ function renderWords() {
         stiffness: 50,
         damping: 18,
         velocity: 1500,
+        ease: easeInOut,
         from: caret.style.left,
         to: box.x - width + "px",
         onUpdate: (latest) => (caret.style.left = latest),

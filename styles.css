@@ -94,8 +94,8 @@ textarea {
 #typer-input,
 #typer-preview {
   font-size: var(--font-size);
+  line-height: calc(var(--font-size) * 1.5);
   font-family: var(--font-mono);
-  line-height: var(--font-size);
   width: 100%;
   height: 100%;
   resize: none;
@@ -107,10 +107,7 @@ textarea {
   position: absolute;
 }
 
-.typer-letter {
-  font-size: var(--font-size);
-  line-height: var(--font-size);
-}
+
 
 .valid {
   color: var(--green);

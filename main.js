@@ -1,6 +1,6 @@
 import { reactive, effect } from "./rndr.js";
 import randomWords from "https://esm.sh/random-words@1.3.0";
-import { animate, easeInOut } from "https://esm.sh/popmotion@11.0.5";
+import { animate, easeOut } from "https://esm.sh/popmotion@11.0.5";
 
 const queue = Promise.prototype.then.bind(Promise.resolve());
 const ignoreKeys = ["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp"];
@@ -105,11 +105,8 @@ function renderWords() {
         bottom: box.height + caretHeight + "px",
       });
       animate({
-        type: "spring",
-        stiffness: 50,
-        damping: 18,
-        velocity: 1500,
-        ease: easeInOut,
+        type: "keyframes",
+        ease: easeOut,
         from: caret.style.left,
         to: box.x - width + "px",
         onUpdate: (latest) => (caret.style.left = latest),

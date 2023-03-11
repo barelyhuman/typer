@@ -1,4 +1,4 @@
-import { animate, easeOut } from "popmotion";
+import { animate, linear } from "popmotion";
 import randomWords from "random-words";
 import { effect, reactive } from "./rndr.js";
 
@@ -106,7 +106,8 @@ function renderWords() {
       });
       animate({
         type: "keyframes",
-        ease: easeOut,
+        ease: linear,
+        duration: 125,
         from: caret.style.left,
         to: box.x - width + "px",
         onUpdate: (latest) => (caret.style.left = latest),

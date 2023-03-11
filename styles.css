@@ -107,8 +107,6 @@ textarea {
   position: absolute;
 }
 
-
-
 .valid {
   color: var(--green);
 }
@@ -144,4 +142,8 @@ textarea {
 .trigger-btn:hover {
   border-bottom: 3px solid var(--accent);
   cursor: pointer;
+}
+
+.mb-2 {
+  margin-bottom: 2rem;
 }

@@ -1,6 +1,6 @@
-import { reactive, effect } from "./rndr.js";
-import randomWords from "https://esm.sh/random-words@1.3.0";
-import { animate, easeOut } from "https://esm.sh/popmotion@11.0.5";
+import { animate, easeOut } from "popmotion";
+import randomWords from "random-words";
+import { effect, reactive } from "./rndr.js";
 
 const queue = Promise.prototype.then.bind(Promise.resolve());
 const ignoreKeys = ["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp"];

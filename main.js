@@ -15,6 +15,10 @@ let startTime;
 const state = reactive({ words: [], input: "", speed: 0 });
 
 input.addEventListener("keydown", (e) => {
+  if (e.code === "Escape") {
+    e.preventDefault();
+    resetState();
+  }
   if (ignoreKeys.indexOf(e.code) > -1) {
     console.log("key to ignore");
     e.preventDefault();
@@ -86,32 +90,26 @@ function renderWords() {
       return { elm };
     });
 
-    if (state.input.length > 0 && state.input.length >= state.words.length) {
-      return resetState;
-    }
-
     const currentElm = elms[state.input.length ? state.input.length : 0];
 
     if (!currentElm) return;
 
-    queue(() => {
-      const box = currentElm.elm.getBoundingClientRect();
-      const width = 3;
-      const caretHeight = box.height / 1.4;
-      Object.assign(caret.style, {
-        top: box.y + (box.height - caretHeight * 1.22) + "px",
-        height: caretHeight + "px",
-        width: width + "px",
-        bottom: box.height + caretHeight + "px",
-      });
-      animate({
-        type: "keyframes",
-        ease: linear,
-        duration: 125,
-        from: caret.style.left,
-        to: box.x - width + "px",
-        onUpdate: (latest) => (caret.style.left = latest),
-      });
+    const box = currentElm.elm.getBoundingClientRect();
+    const width = 3;
+    const caretHeight = box.height / 1.4;
+    Object.assign(caret.style, {
+      top: box.y + (box.height - caretHeight * 1.22) + "px",
+      height: caretHeight + "px",
+      width: width + "px",
+      bottom: box.height + caretHeight + "px",
+    });
+    animate({
+      type: "keyframes",
+      ease: linear,
+      duration: 125,
+      from: caret.style.left,
+      to: box.x - width + "px",
+      onUpdate: (latest) => (caret.style.left = latest),
     });
   });
 }

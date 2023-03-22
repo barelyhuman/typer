@@ -15,6 +15,7 @@ html {
   --red: #f07f75;
   --font-size: 32px;
   --font-size-small: 24px;
+  --font-size-xs: 12px;
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-mono);
@@ -29,6 +30,17 @@ body {
 body {
   max-width: 80ch;
   margin: 0 auto;
+}
+
+small {
+  font-size: var(--font-size-xs);
+}
+
+kbd {
+  font-family: ui-monospace, SFMono-Regular, Consolas, Courier New, monospace;
+  border:1px solid var(--fg);
+  padding:0.5em;
+  border-radius: 6px;
 }
 
 .flex {
@@ -106,14 +118,6 @@ textarea {
   position: absolute;
 }
 
-.valid {
-  color: var(--green);
-}
-
-.invalid {
-  color: var(--red);
-}
-
 .button-container {
   align-items: center;
   gap: 8px;
@@ -145,4 +149,12 @@ textarea {
 
 .mb-2 {
   margin-bottom: 2rem;
+}
+
+.valid {
+  color: var(--green);
+}
+
+.invalid {
+  color: var(--red);
 }

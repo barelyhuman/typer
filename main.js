@@ -22,12 +22,12 @@ const charKey = (char, id) => `#${char.trim() || 'space'}-${id}`
 
 const $ = sel => IO.of(() => document.querySelector(sel))
 
-const resetInput = input => {
+const resetInputValue = input => {
   input.value = ''
   return input
 }
 
-const resetPreview = preview => {
+const resetPreviewHTML = preview => {
   preview.innerHTML = ''
   return preview
 }
@@ -140,6 +140,9 @@ const respositionCaret = curry((toNodeIO, val) => {
   return val
 })
 
+const resetInput = charList =>
+  compose(resetInputValue, focusInput, setMaxLength(charList.length - 1))
+
 const onKeyupOnInput = charList =>
   compose(
     prop('target'),
@@ -188,34 +191,37 @@ function moveCaretTo(node, before) {
   run(effect)
 }
 
+const previewEffects = charList =>
+  map(
+    compose(resetPreviewHTML, charsToPreview(charList), map(run)),
+    $('#typer-preview')
+  )
+
+const caretEffects = charList =>
+  map(e => {
+    moveCaretTo(e, true)
+  }, $(charKey(charList[0], 0)))
+
 // Effect Executions
 charStream = fromSubscription({
   next: charList => {
     keydownUnsub && keydownUnsub()
     keyupUnsub && keyupUnsub()
 
-    run(
-      map(
-        compose(resetPreview, charsToPreview(charList), map(run)),
-        $('#typer-preview')
-      )
-    )
+    const inputStateReset = resetInput(charList)
+
+    run(previewEffects(charList))
+    run(caretEffects(charList))
 
     run(
-      map(e => {
-        moveCaretTo(e, true)
-      }, $(charKey(charList[0], 0)))
-    )
+      map(elm => {
+        inputStateReset(elm)
 
-    run(
-      map(e => {
-        compose(resetInput, focusInput, setMaxLength(charList.length - 1))(e)
-
-        keydownUnsub = fromEvent(e, 'keydown').subscribe(
+        keydownUnsub = fromEvent(elm, 'keydown').subscribe(
           unary(onKeydownOnInput)
         )
 
-        keyupUnsub = fromEvent(e, 'keyup').subscribe(
+        keyupUnsub = fromEvent(elm, 'keyup').subscribe(
           unary(onKeyupOnInput(charList))
         )
       }, $('#typer-input'))

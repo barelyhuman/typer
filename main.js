@@ -2,8 +2,8 @@ import { animate, linear } from "popmotion";
 import randomWords from "random-words";
 import { effect, reactive } from "./rndr.js";
 
-const queue = Promise.prototype.then.bind(Promise.resolve());
 const ignoreKeys = ["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp"];
+const allowedKeys = ["Space", "Semicolon", "Equal", "Comma", "Minus", "Period", "Slash", "Backquote", "BracketLeft", "BracketRight", "Backslash", "Quote"];
 const input = document.querySelector("#typer-input");
 const preview = document.querySelector("#typer-preview");
 const caret = document.querySelector("#caret");
@@ -19,6 +19,10 @@ input.addEventListener("keydown", (e) => {
     e.preventDefault();
     resetState();
   }
+  if (e.code === "Backspace") {
+    e.preventDefault();
+    handleBackspacePress();
+  }
   if (ignoreKeys.indexOf(e.code) > -1) {
     console.log("key to ignore");
     e.preventDefault();
@@ -28,18 +32,38 @@ input.addEventListener("keydown", (e) => {
 
 input.addEventListener(
   "keyup",
-  (e) => {
-    state.input = e.target.value;
-  },
+  (e) => handleKeyUp(e),
   false
 );
 
+function getCurrentElmAndIndex () {
+  const currentIndex = state.input.length ? state.input.length - 1 : 0;
+  const currentChar = state.words[currentIndex];
+  const currentElm = document.getElementById(`${currentChar}-${currentIndex}`);
+  return {currentElm, currentIndex};  
+}
+
+function handleBackspacePress() {
+  const { currentElm } = getCurrentElmAndIndex();    
+  ["valid", "invalid"].forEach(clsName => currentElm.classList.remove(clsName));  
+  state.input = state.input.slice(0,-1)
+}
+
+function handleKeyUp(e) {  
+  if(!(allowedKeys.includes(e.code) || ['Key', "Digit", "Numpad"].includes(e.code.slice(0,-1)))){
+    return;
+  } 
+  state.input += e.key;  
+}
+
 function resetState() {
   state.input = "";
+  state.speed = 0;
   startTime = null;
   input.value = "";
   preview.innerHTML = "";
   setupWords(randomWords(30));
+  renderWords();
 }
 
 function setupWords(words) {
@@ -52,49 +76,23 @@ function renderSpeed() {
   });
 }
 
-function renderWords() {
-  effect(() => {
-    if (state.input.length == 0) {
-      if (!startTime) {
-        startTime = Date.now();
-      }
+function checkAndMarkLetter() {
+  effect(() =>{    
+    if(!state.input)  {
+      renderWords();
+      return
+    }   
+
+    const { currentElm, currentIndex } = getCurrentElmAndIndex();
+    const isCorrectChar = state.words[currentIndex] === state.input[currentIndex]
+    currentElm.classList.add(isCorrectChar ? "valid": "invalid");
+
+    if(isCorrectChar){
+      state.speed = calcSpeed(startTime, state.input.length);
     }
-
-    const elms = state.words.map((x, index) => {
-      let exists = true;
-      let elm = document.getElementById(`${x}-${index}`);
-      if (!elm) {
-        exists = false;
-        elm = document.createElement("span");
-        elm.classList.add("typer-letter");
-        elm.id = `${x}-${index}`;
-      }
-      elm.textContent = x;
-
-      if (!exists) {
-        preview.append(elm);
-      }
-
-      elm.classList.remove("valid");
-      elm.classList.remove("invalid");
-
-      if (state.input[index]) {
-        if (state.words[index] === state.input[index]) {
-          elm.classList.add("valid");
-          state.speed = calcSpeed(startTime, state.input.length);
-        } else {
-          elm.classList.add("invalid");
-        }
-      }
-
-      return { elm };
-    });
-
-    const currentElm = elms[state.input.length ? state.input.length : 0];
-
-    if (!currentElm) return;
-
-    const box = currentElm.elm.getBoundingClientRect();
+    
+    // cursor movement
+    const box = currentElm.getBoundingClientRect();
     const width = 3;
     const caretHeight = box.height / 1.4;
     Object.assign(caret.style, {
@@ -108,10 +106,55 @@ function renderWords() {
       ease: linear,
       duration: 125,
       from: caret.style.left,
-      to: box.x - width + "px",
+      to: box.left - width + box.width + "px",
       onUpdate: (latest) => (caret.style.left = latest),
-    });
+    }); 
+  })
+}
+
+function renderWords() { 
+  if (state.input.length == 0) {
+    if (!startTime) {
+      startTime = Date.now();
+    }
+  }   
+  state.words.forEach((x, index) => {
+    let exists = true;
+    let elm = document.getElementById(`${x}-${index}`);
+    if (!elm) {
+      exists = false;
+      elm = document.createElement("span");
+      elm.classList.add("typer-letter");
+      elm.id = `${x}-${index}`;
+    }
+    elm.textContent = x;
+
+    if (!exists) {
+      preview.append(elm);
+    }
   });
+    
+  const { currentElm } = getCurrentElmAndIndex();
+
+  if (!currentElm) return;
+
+  const box = currentElm.getBoundingClientRect();
+  const width = 3;
+  const caretHeight = box.height / 1.4;
+  Object.assign(caret.style, {
+    top: box.y + (box.height - caretHeight * 1.22) + "px",
+    height: caretHeight + "px",
+    width: width + "px",
+    bottom: box.height + caretHeight + "px",
+  });
+  animate({
+    type: "keyframes",
+    ease: linear,
+    duration: 125,
+    from: caret.style.left,
+    to: box.x - width + "px",
+    onUpdate: (latest) => (caret.style.left = latest),
+  }); 
 }
 
 function autoType() {
@@ -141,8 +184,8 @@ function calcSpeed(startTime, typedCharacters) {
 
 (function main() {
   resetState();
-  renderWords();
+  checkAndMarkLetter();
   renderSpeed();
-  input.focus();
+  input.focus();  
   // autoType();
 })();

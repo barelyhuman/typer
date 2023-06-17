@@ -9,7 +9,57 @@ const preview = document.querySelector("#typer-preview");
 const caret = document.querySelector("#caret");
 const speed = document.querySelector("#speed");
 
-let autoTypeListner;
+const keyboardKeyCodeMap = {  // not added all keys because out of scope as of now
+  ' ': 'Space', 
+  '0': 'Digit0',
+  '1': 'Digit1',
+  '2': 'Digit2',
+  '3': 'Digit3',
+  '4': 'Digit4',
+  '5': 'Digit5',
+  '6': 'Digit6',
+  '7': 'Digit7',
+  '8': 'Digit8',
+  '9': 'Digit9',
+  'a': 'KeyA',
+  'b': 'KeyB',
+  'c': 'KeyC',
+  'd': 'KeyD',
+  'e': 'KeyE',
+  'f': 'KeyF',
+  'g': 'KeyG',
+  'h': 'KeyH',
+  'i': 'KeyI',
+  'j': 'KeyJ',
+  'k': 'KeyK',
+  'l': 'KeyL',
+  'm': 'KeyM',
+  'n': 'KeyN',
+  'o': 'KeyO',
+  'p': 'KeyP',
+  'q': 'KeyQ',
+  'r': 'KeyR',
+  's': 'KeyS',
+  't': 'KeyT',
+  'u': 'KeyU',
+  'v': 'KeyV',
+  'w': 'KeyW',
+  'x': 'KeyX',
+  'y': 'KeyY',
+  'z': 'KeyZ', 
+  ';': 'Semicolon',
+  '=': 'Equal',
+  ',': 'Comma',
+  '.': 'Period',
+  '/': 'Slash',
+  '`': 'Backquote',
+  '[': 'BracketLeft',
+  '\\': 'Backslash',
+  ']': 'BracketRight',
+  "'": 'Quote'
+};
+
+let autoTypeListener;
 let startTime;
 
 const state = reactive({ words: [], input: "", speed: 0 });
@@ -53,6 +103,7 @@ function handleKeyUp(e) {
   if(!(allowedKeys.includes(e.code) || ['Key', "Digit", "Numpad"].includes(e.code.slice(0,-1)))){
     return;
   } 
+  input.value = ''
   state.input += e.key;  
 }
 
@@ -160,16 +211,14 @@ function renderWords() {
 function autoType() {
   effect(() => {
     let counter = 0;
-    input.value = "";
     const statement = state.words.join("");
-    if (autoTypeListner) {
-      clearInterval(autoTypeListner);
+    if (autoTypeListener) {
+      clearInterval(autoTypeListener);
     }
-    autoTypeListner = setInterval(() => {
+    autoTypeListener = setInterval(() => {
       const char = statement[counter++];
-      const evt = new KeyboardEvent("keyup", { key: char });
-      input.value += char;
-      input.dispatchEvent(evt);
+      const evt = new KeyboardEvent("keyup", { key: char, code: keyboardKeyCodeMap[char] })
+      input.dispatchEvent(evt);    
     }, 30);
   });
 }

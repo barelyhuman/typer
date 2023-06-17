@@ -232,6 +232,9 @@ function autoType() {
       clearInterval(autoTypeListener)
     }
     autoTypeListener = setInterval(() => {
+      if (!statement[counter + 1]) {
+        clearInterval(autoTypeListner);
+      }
       const char = statement[counter++]
       const evt = new KeyboardEvent('keyup', {
         key: char,

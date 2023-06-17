@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   popmotion:
     specifier: ^11.0.5
@@ -13,9 +9,15 @@ dependencies:
     version: 1.3.0
 
 devDependencies:
+  '@barelyhuman/prettier-config':
+    specifier: ^1.1.0
+    version: 1.1.0
   parcel:
     specifier: ^2.8.3
     version: 2.8.3
+  prettier:
+    specifier: ^2.8.8
+    version: 2.8.8
 
 packages:
 
@@ -38,6 +40,10 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       chalk: 2.4.2
       js-tokens: 4.0.0
+    dev: true
+
+  /@barelyhuman/prettier-config@1.1.0:
+    resolution: {integrity: sha512-OlommcxHffkX+BtAsXP1ipK0WzKgNha5a+T+reNlNZZkHPZzZrLpQ23snAbubN4xZiV73Z6E+To02ZZka0eTTQ==}
     dev: true
 
   /@jridgewell/gen-mapping@0.3.2:
@@ -1521,6 +1527,12 @@ packages:
       posthtml-render: 3.0.0
     dev: true
 
+  /prettier@2.8.8:
+    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    dev: true
+
   /random-words@1.3.0:
     resolution: {integrity: sha512-brwCGe+DN9DqZrAQVNj1Tct1Lody6GrYL/7uei5wfjeQdacFyFd2h/51LNlOoBMzIKMS9xohuL4+wlF/z1g/xg==}
     dependencies:
@@ -1687,3 +1699,7 @@ packages:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
     engines: {node: '>= 6'}
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

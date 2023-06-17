@@ -9,8 +9,11 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
+  "prettier": "@barelyhuman/prettier-config",
   "devDependencies": {
-    "parcel": "^2.8.3"
+    "@barelyhuman/prettier-config": "^1.1.0",
+    "parcel": "^2.8.3",
+    "prettier": "^2.8.8"
   },
   "dependencies": {
     "popmotion": "^11.0.5",
